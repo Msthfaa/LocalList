@@ -1,11 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import HomeView from '@/Page/Index.vue'
+import oioi from '@/Page/Index.vue'
+import Home from '@/Page/Home.vue'
 import CobaMap from '@/Page/testing/CobaMap.vue';
 
 const routes = [
     { path: '/coba-maps', component: CobaMap },
-  { path: '/', component: HomeView },  
+  { path: '/', component: oioi },  
+  { path: '/home', component: Home },  
 
 ]
 

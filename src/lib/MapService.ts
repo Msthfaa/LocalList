@@ -1,3 +1,5 @@
+import markerSvg from "./markerSvg";
+
 // Initialize the platform object
 class MapService {
   map: any;
@@ -24,7 +26,9 @@ class MapService {
       }
     );
 
-    this.behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));
+    this.behavior = new H.mapevents.Behavior(
+      new H.mapevents.MapEvents(this.map)
+    );
   }
 
   createMarker(lat: Number, long: Number) {
@@ -42,7 +46,13 @@ class MapService {
       marker = new H.map.Marker(coords, { icon: icon });
 
     this.map.addObject(marker);
-    this.map.setCenter(coords);
+  }
+
+  setCenter(lat: number, long: number) {
+    this.map.setCenter({ lat: lat, lng: long }, true);
+    if (this.map.getZoom < 16){
+      this.map.setZoom(16, true);
+    }
   }
 }
 

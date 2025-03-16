@@ -1,12 +1,92 @@
 const dummyData = [
   {
+    name: "Pause Coffee",
+    category: ["Kafe"],
+    rating: "4.7",
+    image: "pause_coffee.jpg",
+    location: {
+      lat: -7.293884872872552,
+      lng: 112.64908980751046
+    }
+  },
+  {
+    name: "Exelco Coffie",
+    category: ["Cafe"],
+    rating: "4.7",
+    image: "serlok.jpg",
+    location: {
+      lat: -7.276719987199731, 
+      lng: 112.74940299784164
+    }
+  },
+  {
+    name: "Kopi Kenangan",
+    category: ["Cafe"],
+    rating: "4.7",
+    image: "serlok.jpg",
+    location: {
+      lat: -7.277288186900468, 
+      lng: 112.7496494408684
+    }
+  },
+  {
+    name: "Titik Koma",
+    category: ["Cafe", "Coffee Shop"],
+    rating: "4.6",
+    image: "titik_koma.jpg",
+    location: {
+      lat: -7.277256015719186, 
+      lng: 112.7556469348613
+    }
+  },
+  {
+    name: "Warkop Bening",
+    category: ["Warkop"],
+    rating: "4.7",
+    image: "pitulikur.jpg",
+    location: {
+      lat: -7.2751661069447895, 
+      lng: 112.75629198516268
+    }
+  },
+  {
+    name: "Warkop Ampirono",
+    category: ["Warkop"],
+    rating: "4.6",
+    image: "cak_kahar.jpg",
+    location: {
+      lat: -7.3087621235564, 
+      lng: 112.72127040066965
+    }
+  },
+  {
+    name: "Toko Kopi Padma",
+    category: ["Cafe"],
+    rating: "4.8",
+    image: "kopi_padma.jpg",
+    location: {
+      lat: -7.318922877647745,
+      lng:  112.74864470813989
+    }
+  },
+  {
+    name: "Ada Apa Dengan Kopi (Aadk)",
+    category: ["Cafe"],
+    rating: "4.7",
+    image: "aadk.jpg",
+    location: {
+      lat: -7.290002455951368, 
+      lng: 112.78823714498604
+    }
+  },
+  {
     name: "STK Mulyosari",
     category: ["Warkop"],
     rating: "4.8",
     image: "stk.jpg",
     location: {
-      lat: -7.2701,
-      lng: 112.7968,
+      lat: -7.270189050149945, 
+      lng: 112.79687118162857
     },
   },
   {
@@ -15,8 +95,8 @@ const dummyData = [
     rating: "4.8",
     image: "stk.jpg",
     location: {
-      lat: -7.281809,
-      lng: 112.78402,
+      lat: -7.2817572891433935, 
+      lng: 112.78409163035815
     },
   },
   {
@@ -25,10 +105,11 @@ const dummyData = [
     rating: "4.8",
     image: "stk.jpg",
     location: {
-      lat: -7.2814,
-      lng: 112.78709,
+      lat:-7.2811789861332255, 
+      lng: 112.78733880028285
     },
   },
+  
 ];
 
 export default dummyData;

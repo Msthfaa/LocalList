@@ -20,10 +20,10 @@ let mapInstance = new MapService();
 
 const places = dummyData;
 onMounted(() => {
-  // mapInstance.createMap("maps");
-  // places.forEach((place) => {
-  //   mapInstance.createMarker(place.location.lat, place.location.lng);
-  // });
+  mapInstance.createMap("maps");
+  places.forEach((place) => {
+    mapInstance.createMarker(place.location.lat, place.location.lng);
+  });
 });
 
 // Asli

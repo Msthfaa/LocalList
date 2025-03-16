@@ -4,13 +4,14 @@ import markerSvg from "./markerSvg";
 class MapService {
   map: any;
   behavior: any;
+  platform: any;
 
   createMap(elTarget: string): any {
-    const platform = new H.service.Platform({
+    this.platform = new H.service.Platform({
       apikey: "E8g4h3WUcXCUexRyVfZzNrEVmCu99jG_ew5vaCMhmoM",
     });
 
-    const defaultLayers = platform.createDefaultLayers();
+    const defaultLayers = this.platform.createDefaultLayers();
 
     this.map = new H.Map(
       document.getElementById(elTarget),
@@ -31,18 +32,14 @@ class MapService {
     );
   }
 
-  createMarker(lat: Number, long: Number) {
-    var svgMarkup =
-      '<svg width="24" height="24" ' +
-      'xmlns="http://www.w3.org/2000/svg">' +
-      '<rect stroke="white" fill="#1b468d" x="1" y="1" width="22" ' +
-      'height="22" /><text x="12" y="18" font-size="12pt" ' +
-      'font-family="Arial" font-weight="bold" text-anchor="middle" ' +
-      'fill="white">H</text></svg>';
+  createMarker(lat: Number, lng: Number) {
+    var svgMarkup = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+    <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+  </svg>`;
 
     // Create an icon, an object holding the latitude and longitude, and a marker:
     const icon = new H.map.Icon(svgMarkup),
-      coords = { lat: lat, lng: long },
+      coords = { lat: lat, lng: lng },
       marker = new H.map.Marker(coords, { icon: icon });
 
     this.map.addObject(marker);
@@ -50,7 +47,7 @@ class MapService {
 
   setCenter(lat: number, long: number) {
     this.map.setCenter({ lat: lat, lng: long }, true);
-    if (this.map.getZoom < 16){
+    if (this.map.getZoom < 16) {
       this.map.setZoom(16, true);
     }
   }

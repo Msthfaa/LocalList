@@ -2,7 +2,9 @@
 import Button from "@/components/ui/button/Button.vue";
 import Input from "@/components/ui/input/Input.vue";
 import MapService from "@/lib/MapService";
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
+import dummyData from "@/lib/dataDummy";
+import { Badge } from "@/components/ui/badge";
 
 import {
   Card,
@@ -14,44 +16,27 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const places = [
-  {
-    name: "Cafe Kopi Santai",
-    category: "Cafe",
-    rating: "4.8",
-    image: "stk.jpg",
-  },
-  {
-    name: "Perpustakaan Kota",
-    category: "Library",
-    rating: "4.7",
-    image: "stk.jpg",
-  },
-  {
-    name: "Co-Working Space XYZ",
-    category: "Co-Working",
-    rating: "4.9",
-    image: "stk.jpg",
-  },
-  { name: "Cafe Modern", category: "Cafe", rating: "4.6", image: "stk.jpg" },
-  {
-    name: "Library 24/7",
-    category: "Library",
-    rating: "4.8",
-    image: "stk.jpg",
-  },
-  {
-    name: "Startup Hub",
-    category: "Co-Working",
-    rating: "4.9",
-    image: "stk.jpg",
-  },
-];
+let mapInstance = new MapService();
 
+const places = dummyData;
 onMounted(() => {
-  const mapInstance = new MapService();
-  mapInstance.createMap("maps");
+  // mapInstance.createMap("maps");
+  // places.forEach((place) => {
+  //   mapInstance.createMarker(place.location.lat, place.location.lng);
+  // });
 });
+
+// Asli
+const setCenterMap = (lat, lng) => {
+  mapInstance.setCenter(lat, lng);
+};
+
+const lat = ref(),
+  lng = ref();
+
+const setCenter = () => {
+  mapInstance.setCenter(lat.value, lng.value);
+};
 </script>
 
 <template>
@@ -72,6 +57,7 @@ onMounted(() => {
                 <div
                   v-for="place in places"
                   class="border-b py-3 cursor-pointer flex"
+                  @click="setCenterMap(place.location.lat, place.location.lng)"
                 >
                   <img :src="place.image" alt="" class="w-1/2" />
                   <div class="ps-5">
@@ -79,10 +65,15 @@ onMounted(() => {
                       <p class="leading-7">
                         {{ place.name }}
                       </p>
-                      <small class="text-sm font-medium leading-none">
-                        {{ place.category }}
-                      </small>
-                      <p class="text-sm text-muted-foreground">
+
+                      <Badge
+                        variant="secondary"
+                        class="me-1"
+                        v-for="ctg in place.category"
+                        >{{ ctg }}</Badge
+                      >
+
+                      <p class="text-xs mt-3 text-muted-foreground">
                         ⭐ {{ place.rating }}
                       </p>
                     </div>
@@ -94,7 +85,21 @@ onMounted(() => {
           </TabsContent>
           <TabsContent value="Recomendation">
             <Card>
-              <CardContent> </CardContent>
+              <CardContent>
+                <Input
+                  type="text"
+                  placeholder="lat"
+                  v-model="lat"
+                  class="my-3"
+                />
+                <Input
+                  type="text"
+                  placeholder="long"
+                  v-model="lng"
+                  class="my-3"
+                />
+                <Button @click="setCenter">Set</Button>
+              </CardContent>
             </Card>
           </TabsContent>
         </Tabs>

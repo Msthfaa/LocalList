@@ -28,6 +28,18 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+
+import { ScrollArea } from '@/components/ui/scroll-area'
+
 let mapInstance = new MapService();
 
 const places = dummyData;
@@ -102,10 +114,94 @@ const setCenter = () => {
                       side="right"
                       side-offset="6"
                       class="bg-white text-black">
-                      <h3
-                        class="scroll-m-20 text-2xl font-semibold tracking-tight">
-                        Rating
-                      </h3>
+                      <div class="text-lg mt-3 font-bold">
+                        {{ place.name }}
+                      </div>
+                      <div class="flex justify-center">
+                        <img :src="place.image" alt="" class="w-100 rounded-md mt-5 mb-5" /> 
+                      </div>
+                      <Badge
+                              variant="secondary"
+                              class="me-1"
+                              v-for="ctg in place.category"
+                              >{{ ctg }}</Badge
+                            >
+                            <p class="leading-7 [&:not(:first-child)]:mt-2">
+                              The king, seeing how much happier his subjects were,<br> realized the error of
+                              his ways and repealed the joke tax.
+                            </p>
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead class="w-[100px]">
+                              Keterangan
+                            </TableHead>
+                            <TableHead>Rating</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          <TableRow>
+                            <TableCell class="font-medium">
+                              Makanan
+                            </TableCell>
+                            <TableCell>⭐⭐⭐⭐⭐</TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell class="font-medium">
+                              Minuman
+                            </TableCell>
+                            <TableCell>⭐⭐⭐</TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell class="font-medium">
+                              Wifi
+                            </TableCell>
+                            <TableCell>⭐⭐</TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell class="font-medium">
+                              Kenyamanan
+                            </TableCell>
+                            <TableCell>⭐⭐⭐⭐</TableCell>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
+                      <div class="text-lg mt-3 font-bold">
+                      Komentar
+                    </div>
+                      <ScrollArea class="h-[200px] w-[350px] rounded-md border p-4">
+                        <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead class="w-[100px]">
+                              Username
+                            </TableHead>
+                            <TableHead>Komen</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          <TableRow>
+                            <TableCell class="font-medium">
+                              Anton
+                            </TableCell>
+                            <TableCell>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell class="font-medium">
+                              Siti
+                            </TableCell>
+                            <TableCell>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell class="font-medium">
+                              Ridwan
+                            </TableCell>
+                            <TableCell>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's </TableCell>
+                          </TableRow>
+                         
+                        </TableBody>
+                      </Table>
+                      </ScrollArea>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>

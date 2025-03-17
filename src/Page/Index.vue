@@ -21,39 +21,9 @@ import { useRouter } from "vue-router";
 
 const $router = useRouter();
 
-const places = [
-  {
-    name: "Cafe Kopi Santai",
-    category: "Cafe",
-    rating: "4.8",
-    image: "stk.jpg",
-  },
-  {
-    name: "Perpustakaan Kota",
-    category: "Library",
-    rating: "4.7",
-    image: "stk.jpg",
-  },
-  {
-    name: "Co-Working Space XYZ",
-    category: "Co-Working",
-    rating: "4.9",
-    image: "stk.jpg",
-  },
-  { name: "Cafe Modern", category: "Cafe", rating: "4.6", image: "stk.jpg" },
-  {
-    name: "Library 24/7",
-    category: "Library",
-    rating: "4.8",
-    image: "stk.jpg",
-  },
-  {
-    name: "Startup Hub",
-    category: "Co-Working",
-    rating: "4.9",
-    image: "stk.jpg",
-  },
-];
+import places from "@/lib/dataDummy";
+
+
 
 const changeRoute = (path: string) => {
   $router.push(path);
@@ -87,7 +57,7 @@ const changeRoute = (path: string) => {
 
           <Carousel>
             <CarouselContent>
-              <CarouselItem
+              <CarouselItem 
                 @click="changeRoute('/maps')"
                 v-for="place in places"
                 class="basis-1/3 cursor-pointer"

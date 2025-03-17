@@ -5,6 +5,18 @@ import MapService from "@/lib/MapService";
 import { onMounted, ref } from "vue";
 import dummyData from "@/lib/dataDummy";
 import { Badge } from "@/components/ui/badge";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 import {
   Card,
@@ -50,36 +62,53 @@ const setCenter = () => {
               Recommendation
             </TabsTrigger>
           </TabsList>
+
           <TabsContent value="Search">
             <Card class="max-h-[540px] overflow-y-auto">
               <CardContent class="py-3 relative">
                 <Input type="text" placeholder="Cari..." class="my-3" />
-                <div
-                  v-for="place in places"
-                  class="border-b py-3 cursor-pointer flex"
-                  @click="setCenterMap(place.location.lat, place.location.lng)"
-                >
-                  <img :src="place.image" alt="" class="w-1/2" />
-                  <div class="ps-5">
-                    <div class="mb-3">
-                      <p class="leading-7">
-                        {{ place.name }}
-                      </p>
-
-                      <Badge
-                        variant="secondary"
-                        class="me-1"
-                        v-for="ctg in place.category"
-                        >{{ ctg }}</Badge
+                <TooltipProvider v-for="place in places">
+                  <Tooltip>
+                    <TooltipTrigger class="block text-start w-full">
+                      <div
+                        class="border-b py-3 cursor-pointer flex"
+                        @click="
+                          setCenterMap(place.location.lat, place.location.lng)
+                        "
                       >
+                        <img :src="place.image" alt="" class="w-1/2" />
+                        <div class="ps-5">
+                          <div class="mb-3">
+                            <p class="leading-7">
+                              {{ place.name }}
+                            </p>
 
-                      <p class="text-xs mt-3 text-muted-foreground">
-                        ⭐ {{ place.rating }}
-                      </p>
-                    </div>
-                    <Button>Rute</Button>
-                  </div>
-                </div>
+                            <Badge
+                              variant="secondary"
+                              class="me-1"
+                              v-for="ctg in place.category"
+                              >{{ ctg }}</Badge
+                            >
+
+                            <p class="text-xs mt-3 text-muted-foreground">
+                              ⭐ {{ place.rating }}
+                            </p>
+                            <Button class="mt-3">Go</Button>
+                          </div>
+                        </div>
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent
+                      side="right"
+                      side-offset="6"
+                      class="bg-white text-black">
+                      <h3
+                        class="scroll-m-20 text-2xl font-semibold tracking-tight">
+                        Rating
+                      </h3>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </CardContent>
             </Card>
           </TabsContent>

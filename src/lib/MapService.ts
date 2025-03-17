@@ -27,6 +27,8 @@ class MapService {
       }
     );
 
+    window.addEventListener("resize", () => this.map.getViewPort().resize())
+
     this.behavior = new H.mapevents.Behavior(
       new H.mapevents.MapEvents(this.map)
     );

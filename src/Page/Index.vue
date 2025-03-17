@@ -37,7 +37,7 @@ const changeRoute = (path: string) => {
         <!-- Hero -->
         <div class="py-40 border-b">
           <h1
-            className="scroll-m-20 text-4xl font-bold tracking-tight lg:text-5xl text-center mb-5"
+            className="scroll-m-20 text-xl md:text-4xl font-bold tracking-tight lg:text-5xl text-center mb-5"
           >
             Temukan Tempat Nyaman untuk Belajar & Nongkrong
           </h1>
@@ -60,11 +60,11 @@ const changeRoute = (path: string) => {
               <CarouselItem 
                 @click="changeRoute('/maps')"
                 v-for="place in places"
-                class="basis-1/3 cursor-pointer"
+                class="md:basis-1/2 lg:basis-1/3 xl:basis-1/4 cursor-pointer"
               >
                 <Card>
-                  <CardHeader>
-                    <img :src="place.image" alt="" />
+                  <CardHeader class="min-h-52 max-h-52 overflow-hidden mb-3">
+                    <img :src="place.image" class=""/>
                   </CardHeader>
                   <CardContent>
                     <CardTitle class="mb-3">{{ place.name }}</CardTitle>

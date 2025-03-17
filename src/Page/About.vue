@@ -3,9 +3,9 @@ import LayoutFirst from "@/layout/layout-first.vue";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 const people = [
-        { name: "Rizky Ananda", role: "Frontend Developer", image: "/ridwan.jpg", initials: "RA" },
-        { name: "Dewi Lestari", role: "Backend Developer", image: "/tyo.jpg", initials: "DL" },
-        { name: "Budi Santoso", role: "UI/UX Designer", image: "https://source.unsplash.com/100x100/?designer", initials: "BS" }
+        { name: "Muhamad Ridwan Saputra", role: "Frontend Developer", image: "/ridwan.jpg", initials: "RA" },
+        { name: "Musthofa Agung Dwi Setyawan", role: "Backend Developer", image: "/tyo.jpg", initials: "DL" },
+        { name: "Arif Muhammad Ihsan Marbun", role: "UI/UX Designer", image: "/arif.jpg", initials: "BS" }
       ]
 
 </script>

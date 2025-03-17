@@ -103,7 +103,7 @@ const setCenter = () => {
                     </TooltipTrigger>
                     <TooltipContent
                       side="right"
-                      side-offset="6"
+                      :side-offset="6"
                       class="bg-white text-black overflow-y-scroll max-h-[100vh]"
                     >
                       <div class="text-lg mt-3 font-bold">

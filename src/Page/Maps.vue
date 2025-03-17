@@ -118,7 +118,7 @@ const setCenter = () => {
                         {{ place.name }}
                       </div>
                       <div class="flex justify-center">
-                        <img :src="place.image" alt="" class="w-100 rounded-md mt-5 mb-5" /> 
+                        <img :src="place.image" alt="" class="w-1/2 rounded-md mt-5 mb-5" /> 
                       </div>
                       <Badge
                               variant="secondary"

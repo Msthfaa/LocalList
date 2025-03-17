@@ -1,15 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import Button from "@/components/ui/button/Button.vue";
 import Input from "@/components/ui/input/Input.vue";
 import MapService from "@/lib/MapService";
 import { onMounted, ref } from "vue";
 import dummyData from "@/lib/dataDummy";
 import { Badge } from "@/components/ui/badge";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
+
 
 import {
   Tooltip,
@@ -21,17 +17,12 @@ import {
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -51,7 +42,7 @@ onMounted(() => {
 });
 
 // Asli
-const setCenterMap = (lat, lng) => {
+const setCenterMap = (lat:number, lng:number) => {
   mapInstance.setCenter(lat, lng);
 };
 

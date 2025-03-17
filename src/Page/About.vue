@@ -1,5 +1,18 @@
+<script setup lang="ts">
+import LayoutFirst from "@/layout/layout-first.vue";
+import ridwan from "@/assets/ridwan.jpg";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+
+const people = [
+        { name: "Rizky Ananda", role: "Frontend Developer", image: ridwan, initials: "RA" },
+        { name: "Dewi Lestari", role: "Backend Developer", image: "/tyo.jpg", initials: "DL" },
+        { name: "Budi Santoso", role: "UI/UX Designer", image: "https://source.unsplash.com/100x100/?designer", initials: "BS" }
+      ]
+
+</script>
+
 <template>
-<div>
+  <div>
 <LayoutFirst>
   <div class="min-h-screen bg-gray-50 p-10">
     <!-- About LocaList -->
@@ -12,11 +25,12 @@
       </p>
     </section>
 
+
     <!-- Team Section -->
     <section>
       <h3 class="text-3xl font-bold text-black text-center mb-10">Tim Pengembang</h3>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 justify-center">
-        <div v-for="member in team" :key="member.name" class="flex flex-col items-center bg-white p-6 rounded-lg shadow-lg">
+        <div v-for="member in people" :key="member.name" class="flex flex-col items-center bg-white p-6 rounded-lg shadow-lg">
           <Avatar class="w-24 h-24 rounded-full">
             <AvatarImage :src="member.image" alt="Foto {{ member.name }}" />
             <AvatarFallback>{{ member.initials }}</AvatarFallback>
@@ -27,27 +41,11 @@
       </div>
     </section>
   </div>
-</LayoutFirst>
-</div>
+
+    </LayoutFirst>
+  </div>
 </template>
 
-<script>
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import LayoutFirst from "@/layout/layout-first.vue";
-
-export default {
-  components: { Avatar, AvatarImage, AvatarFallback },
-  data() {
-    return {
-      team: [
-        { name: "Rizky Ananda", role: "Frontend Developer", image: "RIDWAN.jpg", initials: "RA" },
-        { name: "Dewi Lestari", role: "Backend Developer", image: "TYO.jpg", initials: "DL" },
-        { name: "Budi Santoso", role: "UI/UX Designer", image: "https://source.unsplash.com/100x100/?designer", initials: "BS" }
-      ]
-    };
-  }
-};
-</script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
@@ -55,3 +53,4 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 </style>
+

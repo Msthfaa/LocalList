@@ -1,46 +1,41 @@
 <template>
-  <div class="border w-full py-3 flex px-4">
-    <img src="../assets/logo.jpg" class="w-32 me-auto" />
-    <NavigationMenu class="invisible md:visible">
-      <NavigationMenuList>
+  <div class="border w-full py-3 flex items-center px-4 justify-between">
+    <!-- Logo -->
+    <img src="../assets/logo.jpg" class="w-24 md:w-32" />
+
+    <!-- Menu Desktop -->
+    <NavigationMenu class="hidden md:flex">
+      <NavigationMenuList class="flex space-x-4">
         <NavigationMenuItem>
           <NavigationMenuLink href="/" :class="navigationMenuTriggerStyle()">
             Home
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink
-            href="/maps"
-            :class="navigationMenuTriggerStyle()"
-          >
+          <NavigationMenuLink href="/maps" :class="navigationMenuTriggerStyle()">
             Explore
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink
-            href="/contact"
-            :class="navigationMenuTriggerStyle()"
-          >
+          <NavigationMenuLink href="/contact" :class="navigationMenuTriggerStyle()">
             Contact
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink
-            href="/about"
-            :class="navigationMenuTriggerStyle()"
-          >
+          <NavigationMenuLink href="/about" :class="navigationMenuTriggerStyle()">
             About
           </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
 
+    <!-- Menu Mobile (Drawer) -->
     <Drawer>
-      <DrawerTrigger class="cursor-pointer visible md:invisible">
+      <DrawerTrigger class="md:hidden cursor-pointer">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
+          width="24"
+          height="24"
           fill="currentColor"
           class="bi bi-list"
           viewBox="0 0 16 16"
@@ -51,19 +46,21 @@
           />
         </svg>
       </DrawerTrigger>
-      <DrawerContent class="px-4 py-3">
-        <NavigationMenuLink  href="/" class="w-full block mb-3">
-          Home
-        </NavigationMenuLink>
-        <NavigationMenuLink  href="/maps" class="w-full block mb-3">
-          Explore
-        </NavigationMenuLink>
-        <NavigationMenuLink  href="/contact" class="w-full block mb-3">
-          Contact
-        </NavigationMenuLink>
-        <NavigationMenuLink  href="/about" class="w-full block mb-3">
-          About
-        </NavigationMenuLink>
+      <DrawerContent class="px-4 py-5 bg-white">
+        <div class="flex flex-col space-y-4">
+          <NavigationMenuLink href="/" class="w-full block">
+            Home
+          </NavigationMenuLink>
+          <NavigationMenuLink href="/maps" class="w-full block">
+            Explore
+          </NavigationMenuLink>
+          <NavigationMenuLink href="/contact" class="w-full block">
+            Contact
+          </NavigationMenuLink>
+          <NavigationMenuLink href="/about" class="w-full block">
+            About
+          </NavigationMenuLink>
+        </div>
       </DrawerContent>
     </Drawer>
   </div>

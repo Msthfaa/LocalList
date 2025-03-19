@@ -23,8 +23,6 @@ const $router = useRouter();
 
 import places from "@/lib/dataDummy";
 
-
-
 const changeRoute = (path: string) => {
   $router.push(path);
 };
@@ -35,9 +33,9 @@ const changeRoute = (path: string) => {
     <LayoutFirst>
       <div class="my-3">
         <!-- Hero -->
-        <div class="py-40 border-b">
+        <div class="py-40 border-b px-4 text-center">
           <h1
-            className="scroll-m-20 text-xl md:text-4xl font-bold tracking-tight lg:text-5xl text-center mb-5"
+            class="scroll-m-20 text-2xl md:text-4xl font-bold tracking-tight lg:text-5xl max-w-[90%] mx-auto mb-5"
           >
             Temukan Tempat Nyaman untuk Belajar & Nongkrong
           </h1>
@@ -47,10 +45,10 @@ const changeRoute = (path: string) => {
         </div>
         <!-- Hero -->
 
-        <!-- Carrousel -->
-        <div class="px-32 py-5">
+        <!-- Carousel -->
+        <div class="px-4 md:px-16 lg:px-32 py-5">
           <h3
-            class="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0"
+            class="scroll-m-20 pb-2 text-2xl md:text-3xl font-semibold tracking-tight transition-colors first:mt-0"
           >
             Lagi Trending
           </h3>
@@ -60,11 +58,11 @@ const changeRoute = (path: string) => {
               <CarouselItem 
                 @click="changeRoute('/maps')"
                 v-for="place in places"
-                class="md:basis-1/2 lg:basis-1/3 xl:basis-1/4 cursor-pointer"
+                class="sm:basis-full md:basis-1/2 lg:basis-1/3 xl:basis-1/4 cursor-pointer"
               >
                 <Card>
                   <CardHeader class="min-h-52 max-h-52 overflow-hidden mb-3">
-                    <img :src="place.image" class=""/>
+                    <img :src="place.image" class="w-full h-full object-cover"/>
                   </CardHeader>
                   <CardContent>
                     <CardTitle class="mb-3">{{ place.name }}</CardTitle>

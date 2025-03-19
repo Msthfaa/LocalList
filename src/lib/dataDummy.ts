@@ -1,5 +1,6 @@
 const dummyData = [
   {
+    id: 1,
     name: "Pause Coffee",
     category: ["Kafe"],
     rating: "4.7",
@@ -10,6 +11,7 @@ const dummyData = [
     }
   },
   {
+    id: 2,
     name: "Exelco Coffie",
     category: ["Cafe"],
     rating: "4.7",
@@ -20,6 +22,7 @@ const dummyData = [
     }
   },
   {
+    id: 3,
     name: "Kopi Kenangan",
     category: ["Cafe"],
     rating: "4.7",
@@ -30,6 +33,7 @@ const dummyData = [
     }
   },
   {
+    id: 4,
     name: "Titik Koma",
     category: ["Cafe", "Coffee Shop"],
     rating: "4.6",
@@ -40,6 +44,7 @@ const dummyData = [
     }
   },
   {
+    id: 5,
     name: "Warkop Bening",
     category: ["Warkop"],
     rating: "4.7",
@@ -50,6 +55,7 @@ const dummyData = [
     }
   },
   {
+    id: 6,
     name: "Warkop Ampirono",
     category: ["Warkop"],
     rating: "4.6",
@@ -60,6 +66,7 @@ const dummyData = [
     }
   },
   {
+    id: 7,
     name: "Toko Kopi Padma",
     category: ["Cafe"],
     rating: "4.8",
@@ -70,6 +77,7 @@ const dummyData = [
     }
   },
   {
+    id: 8,
     name: "Ada Apa Dengan Kopi (Aadk)",
     category: ["Cafe"],
     rating: "4.7",
@@ -80,6 +88,7 @@ const dummyData = [
     }
   },
   {
+    id: 9,
     name: "STK Mulyosari",
     category: ["Warkop"],
     rating: "4.8",
@@ -90,6 +99,7 @@ const dummyData = [
     },
   },
   {
+    id: 10,
     name: "Warkop Mas Koko",
     category: ["Warkop", "Cafe"],
     rating: "4.8",
@@ -100,6 +110,7 @@ const dummyData = [
     },
   },
   {
+    id: 11,
     name: "A-Ngop (Andhok plus Ngopi)",
     category: ["Warkop"],
     rating: "4.8",

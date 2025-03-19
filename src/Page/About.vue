@@ -7,6 +7,7 @@ const people = [
   { name: "Musthofa Agung Dwi Setyawan", role: "Backend Developer", image: "/tyo.jpg", initials: "DL" },
   { name: "Arif Muhammad Ihsan Marbun", role: "UI/UX Designer", image: "/arif.jpg", initials: "BS" }
 ];
+
 </script>
 
 <template>

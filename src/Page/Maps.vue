@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
 import Button from "@/components/ui/button/Button.vue";
 import Input from "@/components/ui/input/Input.vue";
 import MapService from "@/lib/MapService";
+import { onMounted, ref, computed } from "vue";
 import dummyData from "@/lib/dataDummy";
 import { Badge } from "@/components/ui/badge";
-import LayoutFirst from "@/layout/nav_only.vue";
+import Navbar from "@/layout/nav_only.vue";
+
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {
-  Card,
-  CardContent,
-} from "@/components/ui/card";
+
+import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import {
   Table,
   TableBody,
@@ -25,12 +25,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-// 🔹 Inisialisasi Map
 let mapInstance = new MapService();
-const places = dummyData;
 
+const places = dummyData;
 onMounted(() => {
   mapInstance.createMap("maps");
   places.forEach((place) => {
@@ -38,93 +38,233 @@ onMounted(() => {
   });
 });
 
-// 🔹 Fungsi untuk set map ke tengah
+// Asli
 const setCenterMap = (lat: number, lng: number) => {
   mapInstance.setCenter(lat, lng);
 };
 
-// 🔹 Form untuk set koordinat manual
-const lat = ref();
-const lng = ref();
+const lat = ref(),
+  lng = ref();
+
+const valueSearch = ref("Search");
+
+function clickSearch() {
+  valueSearch.value = valueSearch.value === "Search" ? "" : "Search";
+}
+
+const activeTooltip = ref(0);
+const setTooltip = (id: number) => {
+  if (activeTooltip.value === id) {
+    activeTooltip.value = 0;
+  } else {
+    activeTooltip.value = id;
+  }
+};
+
 const setCenter = () => {
   mapInstance.setCenter(lat.value, lng.value);
 };
 
-// 🔹 State Modal untuk HP
-const showModal = ref(false);
-const selectedPlace = ref<any>(null);
+const searchQuery = ref("");
 
-const openModal = (place: any) => {
-  selectedPlace.value = place;
-  showModal.value = true;
-};
+const filteredPlaces = computed(() =>
+  dummyData.filter((place) =>
+    place.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  )
+);
+
 </script>
 
 <template>
-  <LayoutFirst>
-    <div class="fixed z-50 w-full md:w-1/3 bg-white shadow-lg md:rounded-lg">
-      <div class="px-5 py-3 w-full">
+  <Navbar class="z-50"></Navbar>
+  <div class="w-full lg:w-1/3 fixed z-50">
+    <div class="flex">
+      <div class="px-5 py-3 w-full my-5 z-50">
         <Tabs>
-          <TabsList class="w-full flex">
-            <TabsTrigger class="w-1/2" value="Search">Search</TabsTrigger>
-            <TabsTrigger class="w-1/2" value="Recommendation">Recommendation</TabsTrigger>
+          <TabsList class="w-full">
+            <TabsTrigger
+              class="w-full"
+              @click="clickSearch"
+              :value="valueSearch"
+            >
+              Search
+            </TabsTrigger>
+            <TabsTrigger class="w-full" value="Recomendation">
+              Recommendation
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="Search">
             <Card class="max-h-[540px] overflow-y-auto">
-              <CardContent class="py-3">
-                <Input type="text" placeholder="Cari..." class="my-3" />
-                
-                <!-- 🔹 Bungkus Tooltip dalam TooltipProvider -->
-                <TooltipProvider>
-                  <div v-for="place in places" :key="place.name">
-                    <div
-                      class="border-b py-3 cursor-pointer flex items-center"
-                      @click="setCenterMap(place.location.lat, place.location.lng)"
+              <CardContent class="py-3 relative">
+                <Input type="text" placeholder="Cari..." class="my-3" v-model="searchQuery"/>
+                <TooltipProvider v-for="place in filteredPlaces">
+                  <Tooltip :open="activeTooltip == place?.id">
+                    <TooltipTrigger
+                      @click="setTooltip(place?.id)"
+                      class="block text-start w-full"
                     >
-                      <img :src="place.image" class="w-1/3 rounded-md" />
-                      <div class="ps-3">
-                        <p class="font-semibold">{{ place.name }}</p>
-                        <div class="flex flex-wrap gap-1 mt-1">
-                          <Badge variant="secondary" v-for="ctg in place.category" :key="ctg">
-                            {{ ctg }}
-                          </Badge>
+                      <div
+                        class="border-b py-3 cursor-pointer flex"
+                        @click="
+                          setCenterMap(place.location.lat, place.location.lng)
+                        "
+                      >
+                        <img :src="place.image" class="w-1/2" />
+                        <div class="ps-5">
+                          <div class="mb-3">
+                            <p class="leading-7">
+                              {{ place.name }}
+                            </p>
+
+                            <Badge
+                              variant="secondary"
+                              class="me-1"
+                              v-for="ctg in place.category"
+                              >{{ ctg }}</Badge
+                            >
+
+                            <p class="text-xs mt-3 text-muted-foreground">
+                              ⭐ {{ place.rating }}
+                            </p>
+                            <Button class="mt-3">Go</Button>
+                          </div>
                         </div>
-                        <p class="text-xs mt-2 text-muted-foreground">⭐ {{ place.rating }}</p>
-                        <Button class="mt-2 text-xs">Go</Button>
                       </div>
-
-                      <!-- Tombol Info di HP -->
-                      <div class="ms-auto md:hidden">
-                        <Button variant="outline" class="p-2" @click="openModal(place)">
-                          ℹ️
+                    </TooltipTrigger>
+                    <TooltipContent
+                      side="right"
+                      class="bg-white translate-x-[-22rem] md:translate-x-20 text-black overflow-y-scroll max-h-[100vh]"
+                    >
+                      <div class="flex py-3 items-center  px-2">
+                        <Button @click="setTooltip(0)" class="me-3 text-2xl">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            class="bi bi-arrow-left-circle-fill"
+                            viewBox="0 0 16 16"
+                          >
+                            <path
+                              d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"
+                            />
+                          </svg>
                         </Button>
+                        <p class="text-lg font-bold">{{ place.name }}</p>
                       </div>
-                    </div>
-
-                    <!-- Tooltip untuk Desktop -->
-                    <Tooltip class="hidden md:block">
-                      <TooltipTrigger>
-                        <div class="cursor-pointer">ℹ️</div>
-                      </TooltipTrigger>
-                      <TooltipContent class="bg-white text-black p-4 rounded-md w-64">
-                        <h3 class="font-bold">{{ place.name }}</h3>
-                        <img :src="place.image" class="w-full rounded-md mt-3 mb-3" />
-                        <!-- <p>{{ place.description }}</p> -->
-                      </TooltipContent>
-                    </Tooltip>
-                  </div>
+                      <div class="flex justify-center">
+                        <img
+                          :src="place.image"
+                          alt=""
+                          class="w-60 rounded-md mt-5 mb-5"
+                        />
+                      </div>
+                      <Badge
+                        variant="secondary"
+                        class="me-1"
+                        v-for="ctg in place.category"
+                        >{{ ctg }}</Badge
+                      >
+                      <p class="leading-7 [&:not(:first-child)]:mt-2">
+                        The king, seeing how much happier his subjects were,<br />
+                        realized the error of his ways and repealed the joke
+                        tax.
+                      </p>
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead class="w-[100px]">
+                              Keterangan
+                            </TableHead>
+                            <TableHead>Rating</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          <TableRow>
+                            <TableCell class="font-medium"> Makanan </TableCell>
+                            <TableCell>⭐⭐⭐⭐⭐</TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell class="font-medium"> Minuman </TableCell>
+                            <TableCell>⭐⭐⭐</TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell class="font-medium"> Wifi </TableCell>
+                            <TableCell>⭐⭐</TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell class="font-medium">
+                              Kenyamanan
+                            </TableCell>
+                            <TableCell>⭐⭐⭐⭐</TableCell>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
+                      <div class="text-lg mt-3 font-bold">Komentar</div>
+                      <ScrollArea
+                        class="h-[200px] w-[350px] rounded-md border p-4"
+                      >
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead class="w-[100px]">
+                                Username
+                              </TableHead>
+                              <TableHead>Komen</TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            <TableRow>
+                              <TableCell class="font-medium"> Anton </TableCell>
+                              <TableCell
+                                >Lorem Ipsum is simply dummy text of the
+                                printing and typesetting industry. Lorem Ipsum
+                                has been the industry's
+                              </TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell class="font-medium"> Siti </TableCell>
+                              <TableCell
+                                >Lorem Ipsum is simply dummy text of the
+                                printing and typesetting industry. Lorem Ipsum
+                                has been the industry's
+                              </TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell class="font-medium">
+                                Ridwan
+                              </TableCell>
+                              <TableCell
+                                >Lorem Ipsum is simply dummy text of the
+                                printing and typesetting industry. Lorem Ipsum
+                                has been the industry's
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                      </ScrollArea>
+                    </TooltipContent>
+                  </Tooltip>
                 </TooltipProvider>
-
               </CardContent>
             </Card>
           </TabsContent>
-
-          <TabsContent value="Recommendation">
+          <TabsContent value="Recomendation">
             <Card>
               <CardContent>
-                <Input type="text" placeholder="Lat" v-model="lat" class="my-3" />
-                <Input type="text" placeholder="Long" v-model="lng" class="my-3" />
+                <Input
+                  type="text"
+                  placeholder="lat"
+                  v-model="lat"
+                  class="my-3"
+                />
+                <Input
+                  type="text"
+                  placeholder="long"
+                  v-model="lng"
+                  class="my-3"
+                />
                 <Button @click="setCenter">Set</Button>
               </CardContent>
             </Card>
@@ -132,19 +272,6 @@ const openModal = (place: any) => {
         </Tabs>
       </div>
     </div>
-
-    <!-- Bagian Maps -->
-    <div class="w-full h-[100vh] bg-gray-300" id="maps"></div>
-
-    <!-- Modal untuk HP -->
-    <div v-if="showModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div class="bg-white p-5 rounded-lg shadow-lg w-80">
-        <h3 class="font-bold text-lg">{{ selectedPlace?.name }}</h3>
-        <img :src="selectedPlace?.image" class="w-full rounded-md mt-3 mb-3" />
-        <p>{{ selectedPlace?.description }}</p>
-        <Button class="mt-3 w-full" @click="showModal = false">Close</Button>
-      </div>
-    </div>
-  </LayoutFirst>
+  </div>
+  <div class="w-full h-[92.5vh] bg-black" id="maps"></div>
 </template>
-

@@ -7,7 +7,7 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   css: {
     postcss: {
-      plugins: [tailwind(), autoprefixer()],
+      plugins: [tailwind(), autoprefixer(), ],
     },
   },
   plugins: [vue()],

@@ -30,7 +30,7 @@
     </NavigationMenu>
 
     <!-- Menu Mobile (Drawer) -->
-    <Drawer>
+    <Drawer  >
       <DrawerTrigger class="md:hidden cursor-pointer">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -46,7 +46,7 @@
           />
         </svg>
       </DrawerTrigger>
-      <DrawerContent class="px-4 py-5 bg-white">
+      <DrawerContent :disable-outside-pointer-events="true" class="px-4 py-5 bg-white">
         <div class="flex flex-col space-y-4">
           <NavigationMenuLink href="/" class="w-full block">
             Home

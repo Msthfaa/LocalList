@@ -4,7 +4,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 const people = [
   { name: "Muhamad Ridwan Saputra", role: "Frontend Developer", image: "/ridwan.jpg", initials: "RA" },
-  { name: "Musthofa Agung Dwi Setyawan", role: "Backend Developer", image: "/tyo.jpg", initials: "DL" },
+  { name: "Musthofa Agung Distyawan", role: "Backend Developer", image: "/tyo.jpg", initials: "DL" },
   { name: "Arif Muhammad Ihsan Marbun", role: "UI/UX Designer", image: "/arif.jpg", initials: "BS" }
 ];
 

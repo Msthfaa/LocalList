@@ -18,6 +18,16 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+import {
   Table,
   TableBody,
   TableCell,
@@ -27,6 +37,7 @@ import {
 } from "@/components/ui/table";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
+import StarsInput from "@/components/StarsInput.vue";
 
 let mapInstance = new MapService();
 
@@ -72,7 +83,6 @@ const filteredPlaces = computed(() =>
     place.name.toLowerCase().includes(searchQuery.value.toLowerCase())
   )
 );
-
 </script>
 
 <template>
@@ -97,7 +107,12 @@ const filteredPlaces = computed(() =>
           <TabsContent value="Search">
             <Card class="max-h-[540px] overflow-y-auto">
               <CardContent class="py-3 relative">
-                <Input type="text" placeholder="Cari..." class="my-3" v-model="searchQuery"/>
+                <Input
+                  type="text"
+                  placeholder="Cari..."
+                  class="my-3"
+                  v-model="searchQuery"
+                />
                 <TooltipProvider v-for="place in filteredPlaces">
                   <Tooltip :open="activeTooltip == place?.id">
                     <TooltipTrigger
@@ -111,11 +126,30 @@ const filteredPlaces = computed(() =>
                         "
                       >
                         <img :src="place.image" class="w-1/2" />
-                        <div class="ps-5">
+                        <div class="ps-5 w-full">
                           <div class="mb-3">
-                            <p class="leading-7">
-                              {{ place.name }}
-                            </p>
+                            <div class="flex w-full">
+                              <p class="leading-7 me-auto block">
+                                {{ place.name }}
+                              </p>
+
+                              <Badge class="bg-green-500 hover:bg-green-500">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="16"
+                                  fill="currentColor"
+                                  class="bi bi-geo-fill"
+                                  viewBox="0 0 16 16"
+                                >
+                                  <path
+                                    fill-rule="evenodd"
+                                    d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999zm2.493 8.574a.5.5 0 0 1-.411.575c-.712.118-1.28.295-1.655.493a1.3 1.3 0 0 0-.37.265.3.3 0 0 0-.057.09V14l.002.008.016.033a.6.6 0 0 0 .145.15c.165.13.435.27.813.395.751.25 1.82.414 3.024.414s2.273-.163 3.024-.414c.378-.126.648-.265.813-.395a.6.6 0 0 0 .146-.15l.015-.033L12 14v-.004a.3.3 0 0 0-.057-.09 1.3 1.3 0 0 0-.37-.264c-.376-.198-.943-.375-1.655-.493a.5.5 0 1 1 .164-.986c.77.127 1.452.328 1.957.594C12.5 13 13 13.4 13 14c0 .426-.26.752-.544.977-.29.228-.68.413-1.116.558-.878.293-2.059.465-3.34.465s-2.462-.172-3.34-.465c-.436-.145-.826-.33-1.116-.558C3.26 14.752 3 14.426 3 14c0-.599.5-1 .961-1.243.505-.266 1.187-.467 1.957-.594a.5.5 0 0 1 .575.411"
+                                  />
+                                </svg>
+                                500 M
+                              </Badge>
+                            </div>
 
                             <Badge
                               variant="secondary"
@@ -136,7 +170,7 @@ const filteredPlaces = computed(() =>
                       side="right"
                       class="bg-white translate-x-[-94%] md:translate-x-20 text-black overflow-y-scroll max-h-[100vh]"
                     >
-                      <div class="flex py-3 items-center  px-2">
+                      <div class="flex py-3 items-center px-2">
                         <Button @click="setTooltip(0)" class="me-3 text-2xl">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -151,7 +185,25 @@ const filteredPlaces = computed(() =>
                             />
                           </svg>
                         </Button>
-                        <p class="text-lg font-bold">{{ place.name }}</p>
+                        <p class="text-lg font-bold me-auto">
+                          {{ place.name }}
+                        </p>
+                        <Badge class="bg-green-500 hover:bg-green-500">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            class="bi bi-geo-fill"
+                            viewBox="0 0 16 16"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999zm2.493 8.574a.5.5 0 0 1-.411.575c-.712.118-1.28.295-1.655.493a1.3 1.3 0 0 0-.37.265.3.3 0 0 0-.057.09V14l.002.008.016.033a.6.6 0 0 0 .145.15c.165.13.435.27.813.395.751.25 1.82.414 3.024.414s2.273-.163 3.024-.414c.378-.126.648-.265.813-.395a.6.6 0 0 0 .146-.15l.015-.033L12 14v-.004a.3.3 0 0 0-.057-.09 1.3 1.3 0 0 0-.37-.264c-.376-.198-.943-.375-1.655-.493a.5.5 0 1 1 .164-.986c.77.127 1.452.328 1.957.594C12.5 13 13 13.4 13 14c0 .426-.26.752-.544.977-.29.228-.68.413-1.116.558-.878.293-2.059.465-3.34.465s-2.462-.172-3.34-.465c-.436-.145-.826-.33-1.116-.558C3.26 14.752 3 14.426 3 14c0-.599.5-1 .961-1.243.505-.266 1.187-.467 1.957-.594a.5.5 0 0 1 .575.411"
+                            />
+                          </svg>
+                          500 M
+                        </Badge>
                       </div>
                       <div class="flex justify-center">
                         <img
@@ -182,6 +234,19 @@ const filteredPlaces = computed(() =>
                         </TableHeader>
                         <TableBody>
                           <TableRow>
+                            <TableCell class="font-medium"> Tutup </TableCell>
+                            <TableCell class="flex">
+                              <p class="me-auto">10:00 - 20:00</p>
+                              <Badge class="bg-red-500 hover:bg-red-500">
+                                Closed
+                              </Badge></TableCell
+                            >
+                          </TableRow>
+                          <TableRow>
+                            <TableCell class="font-medium"> Harga </TableCell>
+                            <TableCell>Rp.1.000 - Rp.10.000</TableCell>
+                          </TableRow>
+                          <TableRow>
                             <TableCell class="font-medium"> Makanan </TableCell>
                             <TableCell>⭐⭐⭐⭐⭐</TableCell>
                           </TableRow>
@@ -201,7 +266,82 @@ const filteredPlaces = computed(() =>
                           </TableRow>
                         </TableBody>
                       </Table>
-                      <div class="text-lg mt-3 font-bold">Komentar</div>
+                      <div class="flex justify-between items-center">
+                        <p class="text-lg mt-3 mb-2 font-bold">Komentar</p>
+                        <Dialog>
+                          <DialogTrigger>
+                            <Button>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                class="bi bi-pencil-square"
+                                viewBox="0 0 16 16"
+                              >
+                                <path
+                                  d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"
+                                />
+                                <path
+                                  fill-rule="evenodd"
+                                  d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
+                                />
+                              </svg>
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent>
+                            <DialogHeader>
+                              <DialogTitle>Tambah Ulasan</DialogTitle>
+                              <DialogDescription>
+                                <div class="mb-5">
+                                  <p
+                                    class="text-sm font-medium leading-none mt-1"
+                                  >
+                                    Makanan
+                                  </p>
+                                  <StarsInput/>
+                                </div>
+                                <div class="mb-5">
+                                  <p
+                                    class="text-sm font-medium leading-none mt-1"
+                                  >
+                                    Minuman
+                                  </p>
+                                  <StarsInput/>
+                                </div>
+                                <div class="mb-5">
+                                  <p
+                                    class="text-sm font-medium leading-none mt-1"
+                                  >
+                                    Wifi
+                                  </p>
+                                  <StarsInput/>
+                                </div>
+                                <div class="mb-5">
+                                  <p
+                                    class="text-sm font-medium leading-none mt-1"
+                                  >
+                                    Kenyamanan
+                                  </p>
+                                  <StarsInput/>
+                                </div>
+                                <div>
+                                  <p
+                                    class="text-sm mb-3 font-medium leading-none mt-1"
+                                  >
+                                    Komentar
+                                  </p>
+                                  <Input type="text" />
+                                </div>
+                              </DialogDescription>
+                            </DialogHeader>
+
+                            <DialogFooter>
+                              <Button>Kirim</Button>
+                            </DialogFooter>
+                          </DialogContent>
+                        </Dialog>
+                      </div>
                       <ScrollArea
                         class="h-[200px] w-[350px] rounded-md border p-4"
                       >

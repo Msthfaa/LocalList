@@ -4,7 +4,7 @@
     <img src="../assets/logo.jpg" class="w-48 md:w-64 mb-5 md:mb-0 mx-auto md:me-10" />
 
     <!-- Deskripsi -->
-    <div class="text-center md:text-left max-w-lg">
+    <div class="text-center md:text-left max-w-lg mx-auto">
       <h4 class="text-xl font-semibold tracking-tight mb-3">
         Tentang LocaList
       </h4>

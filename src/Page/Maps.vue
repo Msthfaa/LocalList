@@ -1,24 +1,22 @@
 <script setup lang="ts">
+import { ref, onMounted } from "vue";
 import Button from "@/components/ui/button/Button.vue";
 import Input from "@/components/ui/input/Input.vue";
 import MapService from "@/lib/MapService";
-import { onMounted, ref } from "vue";
 import dummyData from "@/lib/dataDummy";
 import { Badge } from "@/components/ui/badge";
-
+import LayoutFirst from "@/layout/nav_only.vue";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-
 import {
   Card,
   CardContent,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
 import {
   Table,
   TableBody,
@@ -27,12 +25,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
 import { ScrollArea } from "@/components/ui/scroll-area";
 
+// 🔹 Inisialisasi Map
 let mapInstance = new MapService();
-
 const places = dummyData;
+
 onMounted(() => {
   mapInstance.createMap("maps");
   places.forEach((place) => {
@@ -40,135 +38,113 @@ onMounted(() => {
   });
 });
 
-// Pusatkan peta ke koordinat tertentu
+// 🔹 Fungsi untuk set map ke tengah
 const setCenterMap = (lat: number, lng: number) => {
   mapInstance.setCenter(lat, lng);
 };
 
+// 🔹 Form untuk set koordinat manual
 const lat = ref();
 const lng = ref();
-
 const setCenter = () => {
   mapInstance.setCenter(lat.value, lng.value);
+};
+
+// 🔹 State Modal untuk HP
+const showModal = ref(false);
+const selectedPlace = ref<any>(null);
+
+const openModal = (place: any) => {
+  selectedPlace.value = place;
+  showModal.value = true;
 };
 </script>
 
 <template>
-  <div class="flex flex-col md:flex-row h-screen">
-    <!-- Sidebar -->
-    <div class="w-full md:w-1/3 bg-white shadow-lg md:fixed md:h-screen overflow-y-auto z-50 p-4">
-      <Tabs>
-        <TabsList class="w-full flex">
-          <TabsTrigger class="w-1/2" value="Search">Search</TabsTrigger>
-          <TabsTrigger class="w-1/2" value="Recommendation">Recommendation</TabsTrigger>
-        </TabsList>
+  <LayoutFirst>
+    <div class="fixed z-50 w-full md:w-1/3 bg-white shadow-lg md:rounded-lg">
+      <div class="px-5 py-3 w-full">
+        <Tabs>
+          <TabsList class="w-full flex">
+            <TabsTrigger class="w-1/2" value="Search">Search</TabsTrigger>
+            <TabsTrigger class="w-1/2" value="Recommendation">Recommendation</TabsTrigger>
+          </TabsList>
 
-        <!-- Tab Search -->
-        <TabsContent value="Search">
-          <Card class="max-h-[540px] overflow-y-auto">
-            <CardContent class="py-3 relative">
-              <Input type="text" placeholder="Cari..." class="my-3" />
-              <TooltipProvider v-for="place in places" :key="place.name">
-                <Tooltip>
-                  <TooltipTrigger class="block text-start w-full">
+          <TabsContent value="Search">
+            <Card class="max-h-[540px] overflow-y-auto">
+              <CardContent class="py-3">
+                <Input type="text" placeholder="Cari..." class="my-3" />
+                
+                <!-- 🔹 Bungkus Tooltip dalam TooltipProvider -->
+                <TooltipProvider>
+                  <div v-for="place in places" :key="place.name">
                     <div
-                      class="border-b py-3 cursor-pointer flex flex-col md:flex-row items-center md:items-start"
+                      class="border-b py-3 cursor-pointer flex items-center"
                       @click="setCenterMap(place.location.lat, place.location.lng)"
                     >
-                      <img :src="place.image" class="w-full md:w-1/2 rounded-lg" />
-                      <div class="ps-5 mt-3 md:mt-0">
-                        <p class="leading-7 font-semibold">{{ place.name }}</p>
-                        <div class="mt-2">
-                          <Badge v-for="ctg in place.category" :key="ctg" class="me-1">{{ ctg }}</Badge>
+                      <img :src="place.image" class="w-1/3 rounded-md" />
+                      <div class="ps-3">
+                        <p class="font-semibold">{{ place.name }}</p>
+                        <div class="flex flex-wrap gap-1 mt-1">
+                          <Badge variant="secondary" v-for="ctg in place.category" :key="ctg">
+                            {{ ctg }}
+                          </Badge>
                         </div>
-                        <p class="text-xs mt-3 text-gray-500">⭐ {{ place.rating }}</p>
-                        <Button class="mt-3">Go</Button>
+                        <p class="text-xs mt-2 text-muted-foreground">⭐ {{ place.rating }}</p>
+                        <Button class="mt-2 text-xs">Go</Button>
+                      </div>
+
+                      <!-- Tombol Info di HP -->
+                      <div class="ms-auto md:hidden">
+                        <Button variant="outline" class="p-2" @click="openModal(place)">
+                          ℹ️
+                        </Button>
                       </div>
                     </div>
-                  </TooltipTrigger>
-                  <TooltipContent side="right" class="bg-white text-black overflow-y-auto max-h-[80vh]">
-                    <div class="text-lg mt-3 font-bold">{{ place.name }}</div>
-                    <div class="flex justify-center">
-                      <img :src="place.image" class="w-60 rounded-md mt-5 mb-5" />
-                    </div>
-                    <Badge v-for="ctg in place.category" :key="ctg" class="me-1">{{ ctg }}</Badge>
-                    <p class="leading-7 mt-2">Deskripsi tempat ini...</p>
 
-                    <!-- Tabel Keterangan -->
-                    <Table class="mt-4">
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Keterangan</TableHead>
-                          <TableHead>Rating</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        <TableRow>
-                          <TableCell class="font-medium">Makanan</TableCell>
-                          <TableCell>⭐⭐⭐⭐⭐</TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell class="font-medium">Minuman</TableCell>
-                          <TableCell>⭐⭐⭐</TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell class="font-medium">Wi-Fi</TableCell>
-                          <TableCell>⭐⭐</TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell class="font-medium">Kenyamanan</TableCell>
-                          <TableCell>⭐⭐⭐⭐</TableCell>
-                        </TableRow>
-                      </TableBody>
-                    </Table>
+                    <!-- Tooltip untuk Desktop -->
+                    <Tooltip class="hidden md:block">
+                      <TooltipTrigger>
+                        <div class="cursor-pointer">ℹ️</div>
+                      </TooltipTrigger>
+                      <TooltipContent class="bg-white text-black p-4 rounded-md w-64">
+                        <h3 class="font-bold">{{ place.name }}</h3>
+                        <img :src="place.image" class="w-full rounded-md mt-3 mb-3" />
+                        <!-- <p>{{ place.description }}</p> -->
+                      </TooltipContent>
+                    </Tooltip>
+                  </div>
+                </TooltipProvider>
 
-                    <!-- Komentar -->
-                    <div class="text-lg mt-3 font-bold">Komentar</div>
-                    <ScrollArea class="h-[200px] w-full rounded-md border p-4">
-                      <Table>
-                        <TableHeader>
-                          <TableRow>
-                            <TableHead>Username</TableHead>
-                            <TableHead>Komentar</TableHead>
-                          </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                          <TableRow>
-                            <TableCell class="font-medium">Anton</TableCell>
-                            <TableCell>Lorem Ipsum...</TableCell>
-                          </TableRow>
-                          <TableRow>
-                            <TableCell class="font-medium">Siti</TableCell>
-                            <TableCell>Lorem Ipsum...</TableCell>
-                          </TableRow>
-                          <TableRow>
-                            <TableCell class="font-medium">Ridwan</TableCell>
-                            <TableCell>Lorem Ipsum...</TableCell>
-                          </TableRow>
-                        </TableBody>
-                      </Table>
-                    </ScrollArea>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </CardContent>
-          </Card>
-        </TabsContent>
+              </CardContent>
+            </Card>
+          </TabsContent>
 
-        <!-- Tab Recommendation -->
-        <TabsContent value="Recommendation">
-          <Card>
-            <CardContent>
-              <Input type="text" placeholder="Lat" v-model="lat" class="my-3" />
-              <Input type="text" placeholder="Lng" v-model="lng" class="my-3" />
-              <Button @click="setCenter">Set</Button>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+          <TabsContent value="Recommendation">
+            <Card>
+              <CardContent>
+                <Input type="text" placeholder="Lat" v-model="lat" class="my-3" />
+                <Input type="text" placeholder="Long" v-model="lng" class="my-3" />
+                <Button @click="setCenter">Set</Button>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
 
-    <!-- Map Area -->
-    <div class="flex-1 h-screen bg-black" id="maps"></div>
-  </div>
+    <!-- Bagian Maps -->
+    <div class="w-full h-[100vh] bg-gray-300" id="maps"></div>
+
+    <!-- Modal untuk HP -->
+    <div v-if="showModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+      <div class="bg-white p-5 rounded-lg shadow-lg w-80">
+        <h3 class="font-bold text-lg">{{ selectedPlace?.name }}</h3>
+        <img :src="selectedPlace?.image" class="w-full rounded-md mt-3 mb-3" />
+        <p>{{ selectedPlace?.description }}</p>
+        <Button class="mt-3 w-full" @click="showModal = false">Close</Button>
+      </div>
+    </div>
+  </LayoutFirst>
 </template>
+

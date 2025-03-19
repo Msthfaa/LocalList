@@ -134,7 +134,7 @@ const filteredPlaces = computed(() =>
                     </TooltipTrigger>
                     <TooltipContent
                       side="right"
-                      class="bg-white translate-x-[-22rem] md:translate-x-20 text-black overflow-y-scroll max-h-[100vh]"
+                      class="bg-white translate-x-[-85%] md:translate-x-20 text-black overflow-y-scroll max-h-[100vh]"
                     >
                       <div class="flex py-3 items-center  px-2">
                         <Button @click="setTooltip(0)" class="me-3 text-2xl">
